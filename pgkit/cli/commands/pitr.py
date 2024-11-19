@@ -54,10 +54,15 @@ def status(name):
 @click.argument('target_time', required=True)
 def recover(name, target_time):
     config = DB.get_config(name)
+
     if target_time != 'latest':
         try:
             parsed_target_date = parse_date(target_time)
-            target_time = str(timezone('Asia/Tehran').localize(parsed_target_date))
+            if parsed_target_date.tzinfo is None:
+                click.echo('WARNING: target_time argument is missing timezone information. Assuming GMT.')
+                target_time = str(timezone('GMT').localize(parsed_target_date))
+            else:
+                target_time = str(parsed_target_date)
         except ValueError:
             return click.echo('target_time argument should have a valid datetime format.')
     PG.recovery(

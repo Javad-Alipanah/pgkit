@@ -6,6 +6,7 @@ from pgkit.application.settings import DB_PATH
 
 DEFAULT_MAX_CONNECTIONS = 100
 DEFAULT_MAX_WORKERS = 8
+DEFAULT_TIMEZONE = 'GMT'
 
 
 class LimitedPermissionJSONStorage(JSONStorage):
@@ -43,6 +44,7 @@ class DBClass:
             'use_separate_receivewal_service': use_separate_receivewal_service,
             'max_connections': DEFAULT_MAX_CONNECTIONS,
             'max_worker_processes': DEFAULT_MAX_WORKERS,
+            'timezone': DEFAULT_TIMEZONE,
         })
 
     def remove_config(self, name):

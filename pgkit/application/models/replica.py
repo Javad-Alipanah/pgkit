@@ -154,6 +154,8 @@ class Replica(Postgres):
 
         max_connections = self.get_config_parameter_value('max_connections')
         max_worker_processes = self.get_config_parameter_value('max_worker_processes')
+        timezone = self.get_config_parameter_value('timezone')
+        
 
         print('Create recovery.conf file')
         recovery_config = template.render(
@@ -173,9 +175,10 @@ class Replica(Postgres):
             recovery_mode=recovery,
             recovery_target_time=recovery_target_time,
             latest=latest,
-            max_connections=max_connections,
+            max_connections=max_connections,    
             max_worker_processes=max_worker_processes,
-            use_separate_receivewal_service=self.use_separate_receivewal_service
+            use_separate_receivewal_service=self.use_separate_receivewal_service,
+            timezone=timezone
         )
 
         file_location = f'/etc/postgresql/{self.version}/{self.name}/postgresql.conf' if self.version >= 12 \
